@@ -2,9 +2,9 @@
 const webpack = require('webpack');
 const path = require('path');
 //const CleanWebpackPlugin = require('clean-webpack-plugin');
-//const ExtractTexPlugin = require('extract-text-webpack-plugin');
+//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const Obfuscator = require('webpack-obfuscator');
-const MinifyCss = require('mini-css-extract-plugin')
+const MinifyCss = require('mini-css-extract-plugin');
 
 module.exports = {
 
@@ -17,16 +17,14 @@ output: {
    
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].bundle.js",
-    publicPath: '/dist'
+    publicPath: 'dist'
 
 },
-
-
+ 
 
   mode: 'production',
 module : {
-    rules: [
-        
+    rules: [  
         {
             include: [path.resolve(__dirname, 'src')],
     
@@ -40,35 +38,34 @@ module : {
                     }             
                 ]   
         },
+
         {
             include: [path.resolve(__dirname, 'src')],
-            test: /\.scss$/,
-            use: [       
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
+    
+                test: /\.scss$/,
+            
+                  
+                    use : [ 'style-loader','css-loader','sass-loader',]
                     
                 
-                ]          
+                       
+                  
         },
       
         {
             include: [path.resolve(__dirname, 'src')],
             test: /\.(jpg|png|svg|gif)$/,
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: {
-                        filename: '[name].[ext]',
-                    }
-                }
-            ]
+            use: 'file-loader',
         },
-
-     
-        
+        {
+            include: [path.resolve(__dirname, 'src')],
+            test: /\.html$/,
+            use: ['html-loader']
+},
     ]
 },
+
+
  plugins: [
     new Obfuscator({
         rotateUnicodeArray: true
@@ -76,7 +73,9 @@ module : {
     new MinifyCss ({
         filename: '[name].bundle.js',
 
-    })
-] 
+    },),
+    
+],
+
 };
  

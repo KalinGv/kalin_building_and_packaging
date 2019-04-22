@@ -1,28 +1,34 @@
 const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTexPlugin = require('extract-text-webpack-plugin');
-const hot = require('webpack-hot-middleware');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const ExtractTexPlugin = require('extract-text-webpack-plugin');
+
 
 module.exports = {
 
 entry: {
-app : "./src/js/app.js",
-
-
+app : "./src/js/app.js"
+  
 },
 output: {
    
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].bundle.js",
-    publicPath: '/dist'
+    publicPath: 'dist'
+  
 
-},
+}, 
 
-devServer: {
-    contentBase: './dist',
+devtool: 'inline-source-map',
+    devServer: {
+        contentBase: path.resolve(__dirname, 'src'),
+        publicPath: '/dist/',
+        inline: true,
+        hot: true, 
+      
 
-  },
+  }, 
   mode: 'development',
 module : {
     rules: [
@@ -41,34 +47,38 @@ module : {
                 ]   
         },
         {
-            include: [path.resolve(__dirname, 'src')],
-            test: /\.scss$/,
-            use: [       
-                    'style-loader',
+           include: [path.resolve(__dirname, 'src')],
+    
+                test: /\.scss$/,
+                    use : [ 'style-loader',
                     'css-loader',
-                    'sass-loader'
-                    
-                
+                    'sass-loader',
                 ]          
         },
       
         {
             include: [path.resolve(__dirname, 'src')],
             test: /\.(jpg|png|svg|gif)$/,
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: {
-                        filename: '[name].[ext]',
-                    }
-                }
-            ]
+            use:  'file-loader',
+            
         },
+
+        {
+            include: [path.resolve(__dirname, 'src')],
+            test: /\.html$/,
+            use: ['html-loader']
+},
   
         
         
     ]
 },
+plugins: [
+    new HtmlWebpackPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
+
+],
+
 
 };
  

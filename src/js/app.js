@@ -1,12 +1,12 @@
 //imports from other files
 import '../css/main.scss';
-import '../css/input-elements.scss';
 import {secretButton, secretParagraph, img12} from './dom-loader';
 
 //making the secret message to apper by clicking the button
 var showSecret = false;
 
 secretButton.addEventListener('click', toggleSecretState);
+//calling this function to hide the paragraph
 updateSecretParagraph();
 
 function toggleSecretState() {
@@ -34,8 +34,12 @@ function updateSecretParagraph() {
 
 function updateImg() {
  if (showSecret) {
-    img12.src='../src/img/img2.jpg';
+    img12.src='../img/img2.jpg';
  } else {
-    img12.src='../src/img/img1.jpg';
+    img12.src='../img/img1.jpg';
  }
 };
+
+// if (module.hot) {
+     // module.hot.accept(); 
+  //  } 
